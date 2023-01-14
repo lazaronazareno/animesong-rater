@@ -26,7 +26,7 @@ const Navigation = () => {
     <Nav>
       <Link href='/'>Inicio</Link>
       <Link href='/trending'>Populares</Link>
-      <Link href='/new'>Nuevo Registro</Link>
+      <Link href='/new-song'>Nuevo Registro</Link>
     </Nav>
   )
 }

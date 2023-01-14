@@ -1,12 +1,14 @@
 import Layout from '@/components/layout/Layout'
 import React from 'react'
 
-export default function Us () {
+const Trending = () => {
   return (
-    <>
+    <div>
       <Layout>
-        <h1>Nosotros</h1>
+        <h1>Populares</h1>
       </Layout>
-    </>
+    </div>
   )
 }
+
+export default Trending
