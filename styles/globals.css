@@ -5,7 +5,9 @@
   --light-orange: #F18701;
   --orange: #F35B04;
   --black: #233d4d;
-  --white: #fefae0
+  --white-background: #fefae0;
+  --white: #FFFFFF;
+  --red: #dc2f02;
 }
 
 html {
@@ -15,6 +17,12 @@ html {
 
 *, *::before, *:before {
   box-sizing: inherit;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 body {
