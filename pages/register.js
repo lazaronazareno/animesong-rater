@@ -1,19 +1,28 @@
 import Layout from '@/components/layout/Layout'
 import { Form, FormField, InputSubmit, Error } from '@/components/ui/Form'
-import React from 'react'
+import React, { useState } from 'react'
+import Router from 'next/router'
 
 import useValidation from '@/hooks/useValidation'
 import RegisterValidation from '@/validation/registerValidation'
+import { register } from '@/firebase/firebase'
 
 const Register = () => {
+  const [error, setError] = useState(false)
   const INITIAL_STATE = {
     name: '',
     email: '',
     password: ''
   }
 
-  function Register () {
-    console.log('Creando Cuenta...')
+  async function Register () {
+    try {
+      await register(name, email, password)
+      Router.push('/')
+    } catch (error) {
+      console.log('Hubo un error al crear el usuario', error)
+      setError(error.message)
+    }
   }
   const { values, errors, handleChange, handleSubmit } = useValidation(INITIAL_STATE, RegisterValidation, Register)
 
@@ -71,6 +80,7 @@ const Register = () => {
               type='submit'
               value='Crear Cuenta'
             />
+            {error && <Error>{error}</Error>}
           </Form>
         </>
       </Layout>
