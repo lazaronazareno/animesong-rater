@@ -3,13 +3,23 @@ import Head from 'next/head'
 import '@/styles/globals.css'
 
 import firebase, { FirebaseContext } from '../firebase'
+import useAuth from '@/hooks/useAuth'
 
 export default function App ({ Component, pageProps }) {
-  const app = firebase
+  console.log('███████╗░█████╗░██████╗░░█████╗░')
+  console.log('╚════██║██╔══██╗██╔══██╗██╔══██╗')
+  console.log('░░███╔═╝███████║██████╔╝██║░░██║')
+  console.log('██╔══╝░░██╔══██║██╔══██╗██║░░██║')
+  console.log('███████╗██║░░██║██║░░██║╚█████╔╝')
+  console.log('╚══════╝╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░')
+  console.log('░░░░░░░░░░github/lazaronazareno░')
+
+  const user = useAuth()
   return (
     <FirebaseContext.Provider
       value={{
-        app
+        firebase,
+        user
       }}
     >
       <Head>

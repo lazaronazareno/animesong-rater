@@ -7,13 +7,18 @@ import useValidation from '@/hooks/useValidation'
 import RegisterValidation from '@/validation/registerValidation'
 import { register } from '@/firebase/firebase'
 
+const INITIAL_STATE = {
+  name: '',
+  email: '',
+  password: ''
+}
+
 const Register = () => {
   const [error, setError] = useState(false)
-  const INITIAL_STATE = {
-    name: '',
-    email: '',
-    password: ''
-  }
+
+  const { values, errors, handleChange, handleSubmit } = useValidation(INITIAL_STATE, RegisterValidation, Register)
+
+  const { name, email, password } = values
 
   async function Register () {
     try {
@@ -21,12 +26,13 @@ const Register = () => {
       Router.push('/')
     } catch (error) {
       console.log('Hubo un error al crear el usuario', error)
-      setError(error.message)
+      if (error.code === 'auth/email-already-in-use') {
+        setError('Email ya registrado.')
+      } else {
+        setError(error.code)
+      }
     }
   }
-  const { values, errors, handleChange, handleSubmit } = useValidation(INITIAL_STATE, RegisterValidation, Register)
-
-  const { name, email, password } = values
 
   return (
     <>
