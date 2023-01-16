@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth'
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, query, orderBy, getDocs } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 
 import firebaseConfig from './config'
@@ -41,4 +41,20 @@ export const addNewSong = async (newSong) => {
   } catch (e) {
     console.error('Error adding document: ', e)
   }
+}
+
+export const getSongs = async () => {
+  const songsRef = collection(db, 'songs')
+  const q = query(songsRef, orderBy('createdAt', 'desc'))
+
+  const snapshot = await getDocs(q)
+
+  const response = snapshot.docs.map((doc) => {
+    return {
+      id: doc.id,
+      ...doc.data()
+    }
+  })
+
+  return response
 }

@@ -1,12 +1,40 @@
+import React, { useEffect, useState } from 'react'
 import Layout from '@/components/layout/Layout'
-import React from 'react'
+import { getSongs } from '@/firebase/firebase'
+import SongDetails from '@/components/layout/SongDetails'
+import styled from '@emotion/styled'
 
-export default function Home () {
+const SongsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: var(--violet);
+  width: 100%;
+  padding: 3rem 0;
+  align-items: center;
+`
+
+const Home = () => {
+  const [songs, setSongs] = useState([])
+
+  const getData = async () => {
+    const response = await getSongs()
+    setSongs(response)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
   return (
     <>
       <Layout>
-        <h1>Inicio</h1>
+        <SongsContainer>
+          {songs.map(song => (
+            <SongDetails key={song.id} song={song} />
+          ))}
+        </SongsContainer>
       </Layout>
     </>
   )
 }
+
+export default Home

@@ -21,8 +21,6 @@ const INITIAL_STATE = {
   originalName: ''
 }
 const NewSong = () => {
-  const [error, setError] = useState(false)
-
   const { values, errors, handleChange, handleSubmit } = useValidation(INITIAL_STATE, NewSongValidation, AddSong)
 
   const { name, url, description, image, anime, artist, originalName } = values
@@ -188,7 +186,6 @@ const NewSong = () => {
               type='submit'
               value='Nueva Canción'
             />
-            {error && <Error>{error}</Error>}
           </Form>
         </>
       </Layout>
