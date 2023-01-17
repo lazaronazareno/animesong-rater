@@ -7,12 +7,16 @@ import styled from '@emotion/styled'
 import { css } from '@emotion/react'
 import { FormField, InputSubmit } from '@/components/ui/Form'
 import Button from '@/components/ui/Button'
+import useBackgroundByImage from '@/hooks/useBackgroundByImage'
 
 const Container = styled.div`
   width: 65%;
   padding: 3rem 0;
-  padding: 3rem 0;
   align-items: center;
+
+  @media (max-width : 768px) {
+    padding: 0;
+  }
 `
 
 const SongContainer = styled.div`
@@ -20,6 +24,26 @@ const SongContainer = styled.div`
     display: grid;
     grid-template-columns: 2fr 1fr;
     column-gap: 2rem;
+  }
+  @media (max-width : 768px) {
+    display: flex;
+    flex-direction: column-reverse;
+
+    aside {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    aside a {
+      border-radius: 12px;
+      margin: 0;
+    }
+
+    aside h3 {
+      margin: 0;
+    }
   }
 `
 
@@ -56,6 +80,9 @@ const Song = () => {
   }
 
   const { name, url, description, anime, artist, originalName, image, comments, votes, createdAt, userVotes, author } = song
+
+  const { color } = useBackgroundByImage(image)
+  console.log(color)
 
   useEffect(() => {
     if (id && loadDB) {
@@ -182,15 +209,22 @@ const Song = () => {
                       <h3>{realDate}</h3>
                       <h3>Por : {author.name}</h3>
                     </div>
-                    <img
-                      css={css`
-                    width: 50%;
-                    aspect-ratio: 1/1;
-                  `}
-                      alt={name}
-                      src={image}
-                    />
-                    <p>{description}</p>
+                    <div css={css`display:flex; gap:2rem;`}>
+                      <img
+                        css={css`
+                      width: 50%;
+                      aspect-ratio: 1/1;
+                    `}
+                        alt={name}
+                        src={image}
+                      />
+                      <div>
+                        <h3>{anime}</h3>
+                        <h3>{originalName}</h3>
+                        <h3>{artist}</h3>
+                        <h3>"{description}"</h3>
+                      </div>
+                    </div>
 
                     {user && (
                       <>
