@@ -6,7 +6,6 @@ import styled from '@emotion/styled'
 import { css } from '@emotion/react'
 import Button from '../ui/Button'
 import { FirebaseContext } from '@/firebase'
-import { logout } from '@/firebase/firebase'
 
 const ContainerHeader = styled.div`
   max-width: 1200px;
@@ -29,7 +28,7 @@ const Logo = styled.p`
 `
 
 const Header = () => {
-  const { user } = useContext(FirebaseContext)
+  const { user, logout } = useContext(FirebaseContext)
 
   return (
     <header
@@ -47,8 +46,11 @@ const Header = () => {
           <Link href='/'>
             <Logo>ASR</Logo>
           </Link>
+
           <Search />
+
           <Navigation />
+
         </div>
         <div css={css`
           display: flex;
@@ -73,16 +75,12 @@ const Header = () => {
               )
             : (
               <>
-                <Link href='/login'>
-                  <Button bgColor='true'>
-                    Login
-                  </Button>
-                </Link>
-                <Link href='/register'>
-                  <Button>
-                    Crear Cuenta
-                  </Button>
-                </Link>
+                <Button href='/login' bgColor='true'>
+                  Login
+                </Button>
+                <Button href='/register'>
+                  Crear Cuenta
+                </Button>
               </>
               )}
         </div>

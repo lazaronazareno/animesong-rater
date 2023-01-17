@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import React from 'react'
 import { FaComments } from 'react-icons/fa'
 import { BiUpArrow } from 'react-icons/bi'
+import Link from 'next/link'
 
 const SongContainer = styled.div`
   display: flex;
@@ -17,6 +18,7 @@ const SongContainer = styled.div`
 
   h1 {
     margin-bottom: 1rem;
+    color: black;
   }
 
   h3, h2 {
@@ -50,8 +52,7 @@ const Votes = styled.div`
 `
 
 const SongDetails = ({ song }) => {
-  console.log(song)
-  const { name, /* url, */ anime, artist, originalName, image, comments, votes, createdAt } = song
+  const { id, name, /* url, */ anime, artist, originalName, image, comments, votes, createdAt } = song
   const date = new Date(createdAt)
   const realDate = date.toLocaleString()
   return (
@@ -61,7 +62,12 @@ const SongDetails = ({ song }) => {
       </div>
       <div>
         <h3>{anime}</h3>
-        <h1>{name}</h1>
+        <Link
+          href='/songs/[id]'
+          as={`/songs/${id}`}
+        >
+          <h1>{name}</h1>
+        </Link>
         {(artist || originalName) && (
           <h3>{originalName} - {artist}</h3>
         )}
