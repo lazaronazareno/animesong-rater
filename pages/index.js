@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React from 'react'
 import Layout from '@/components/layout/Layout'
 import SongDetails from '@/components/layout/SongDetails'
 import styled from '@emotion/styled'
 
-import { FirebaseContext } from '@/firebase'
+import useSongs from '@/hooks/useSongs'
 
 const SongsContainer = styled.div`
   display: flex;
@@ -15,18 +15,8 @@ const SongsContainer = styled.div`
 `
 
 const Home = () => {
-  const { getSongs } = useContext(FirebaseContext)
+  const { songs } = useSongs('createdAt')
 
-  const [songs, setSongs] = useState([])
-
-  const getData = async () => {
-    const response = await getSongs()
-    setSongs(response)
-  }
-
-  useEffect(() => {
-    getData()
-  }, [])
   return (
     <>
       <Layout>

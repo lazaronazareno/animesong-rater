@@ -43,9 +43,9 @@ export const addNewSong = async (newSong) => {
   }
 }
 
-export const getSongs = async () => {
+export const getSongs = async (order) => {
   const songsRef = await collection(db, 'songs')
-  const q = await query(songsRef, orderBy('createdAt', 'desc'))
+  const q = await query(songsRef, orderBy(order, 'desc'))
 
   const snapshot = await getDocs(q)
 
