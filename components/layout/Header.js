@@ -16,6 +16,14 @@ const ContainerHeader = styled.div`
     display: flex;
     justify-content: space-between;
   }
+
+  @media (max-width : 768px) {
+    div:first-of-type {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+  }
 `
 
 const Logo = styled.p`
@@ -46,7 +54,6 @@ const Header = () => {
           <Link href='/'>
             <Logo>ASR</Logo>
           </Link>
-
           <Search />
 
           <Navigation />

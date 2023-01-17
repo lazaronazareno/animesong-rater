@@ -20,6 +20,23 @@ const Nav = styled.nav`
       color: var(--violet);
     }
   }
+
+  @media (max-width : 768px) {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+
+    a {
+      font-size: 2rem;
+      margin-left: 0;
+      color: var(--white);
+      font-family: 'Sofia Sans Condensed',sans-serif;
+      background-color: var(--light-violet);
+      border-radius: 8px;
+      padding: 0.5rem 4rem;
+    }
+  }
 `
 
 const Navigation = () => {
