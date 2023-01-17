@@ -1,11 +1,12 @@
 import Layout from '@/components/layout/Layout'
 import { Form, FormField, InputSubmit, Error } from '@/components/ui/Form'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Router from 'next/router'
+
+import { FirebaseContext } from '@/firebase'
 
 import useValidation from '@/hooks/useValidation'
 import LoginValidation from '@/validation/loginValidation'
-import { login } from '@/firebase/firebase'
 
 const INITIAL_STATE = {
   email: '',
@@ -13,6 +14,8 @@ const INITIAL_STATE = {
 }
 
 const Login = () => {
+  const { login } = useContext(FirebaseContext)
+
   const [error, setError] = useState(false)
 
   const { values, errors, handleChange, handleSubmit } = useValidation(INITIAL_STATE, LoginValidation, Login)

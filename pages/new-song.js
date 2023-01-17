@@ -1,4 +1,5 @@
 import Layout from '@/components/layout/Layout'
+import { v4 as uuidv4 } from 'uuid'
 import { Form, FormField, InputSubmit, Error } from '@/components/ui/Form'
 import React, { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -7,9 +8,10 @@ import { FirebaseContext } from '@/firebase'
 
 import useValidation from '@/hooks/useValidation'
 import NewSongValidation from '@/validation/newSongValidation'
-import { addNewSong, storage } from '@/firebase/firebase'
 import { ref, getDownloadURL } from 'firebase/storage'
 import useUploadFile from '@/hooks/useUploadFile'
+import Error404 from '@/components/layout/404'
+import { storage } from '@/firebase/firebase'
 
 const INITIAL_STATE = {
   name: '',
@@ -25,12 +27,14 @@ const NewSong = () => {
 
   const { name, url, description, image, anime, artist, originalName } = values
 
+  const songId = uuidv4()
+
   const router = useRouter()
 
-  const { user } = useContext(FirebaseContext)
+  const { user, addNewSong } = useContext(FirebaseContext)
 
   const [uploadFile, uploading, imageError] = useUploadFile()
-  const storageRef = ref(storage, `/song-images/${name}.png`)
+  const storageRef = ref(storage, `/song-images/${songId}.png`)
   const [selectedFile, setSelectedFile] = useState()
 
   const upload = async () => {
@@ -46,9 +50,11 @@ const NewSong = () => {
       return router.push('/login')
     }
 
-    upload()
+    await upload()
 
-    const urlImage = await getDownloadURL(ref(storage, `/song-images/${name}.png`))
+    let urlImage = ''
+
+    urlImage = await getDownloadURL(ref(storage, `/song-images/${songId}.png`))
 
     const newSong = {
       name,
@@ -60,7 +66,12 @@ const NewSong = () => {
       image: urlImage,
       votes: 0,
       comments: [],
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      author: {
+        id: user.uid,
+        name: user.displayName
+      },
+      userVotes: []
     }
     addNewSong(newSong)
 
@@ -70,124 +81,128 @@ const NewSong = () => {
   return (
     <>
       <Layout>
-        <>
-          <h1>Nueva Canción</h1>
-          <Form
-            onSubmit={handleSubmit}
-          >
-            <fieldset>
-              <legend>Información general</legend>
-              <FormField>
-                <label htmlFor='name'>Nombre</label>
-                <input
-                  type='text'
-                  id='name'
-                  placeholder='Nombre de la Canción'
-                  name='name'
-                  value={name}
-                  onChange={handleChange}
+        {!user
+          ? <Error404 msg='No se puede mostrar el contenido. Logueate!' />
+          : (
+            <>
+              <h1>Nueva Canción</h1>
+              <Form
+                onSubmit={handleSubmit}
+              >
+                <fieldset>
+                  <legend>Información general</legend>
+                  <FormField>
+                    <label htmlFor='name'>Nombre</label>
+                    <input
+                      type='text'
+                      id='name'
+                      placeholder='Nombre de la Canción'
+                      name='name'
+                      value={name}
+                      onChange={handleChange}
+                    />
+                  </FormField>
+                  {errors.name && <Error>{errors.name}</Error>}
+
+                  <FormField>
+                    <label htmlFor='url'>Url</label>
+                    <input
+                      type='url'
+                      id='url'
+                      placeholder='Enlace de la cancion'
+                      name='url'
+                      value={url}
+                      onChange={handleChange}
+                    />
+                  </FormField>
+                  {errors.url && <Error>{errors.url}</Error>}
+
+                  <FormField>
+                    <label htmlFor='image'>Imagen</label>
+                    <input
+                      type='file'
+                      onChange={(e) => {
+                        const file = e.target.files ? e.target.files[0] : undefined
+                        setSelectedFile(file)
+                      }}
+                      id='image'
+                      placeholder='Imagen'
+                      name='image'
+                      value={image}
+                    />
+                  </FormField>
+                  {imageError && <strong>{imageError.message}</strong>}
+                  {uploading && <span>Uploading file...</span>}
+                  {selectedFile && <span>Selected file: {selectedFile.name}</span>}
+                </fieldset>
+
+                <fieldset>
+                  <legend>¿Por que este tema?</legend>
+
+                  <FormField>
+                    <label htmlFor='description'>Descripción</label>
+                    <textarea
+                      id='description'
+                      placeholder='¿Por que te gusta esta canción?, ¿Como te sentis al escucharla?, etc'
+                      name='description'
+                      value={description}
+                      onChange={handleChange}
+                    />
+                  </FormField>
+                  {errors.description && <Error>{errors.description}</Error>}
+                </fieldset>
+
+                <fieldset>
+                  <legend>Informacion Extra</legend>
+
+                  <FormField>
+                    <label htmlFor='anime'>Anime</label>
+                    <input
+                      type='text'
+                      id='anime'
+                      placeholder='Nombre del anime donde aparece'
+                      name='anime'
+                      value={anime}
+                      onChange={handleChange}
+                    />
+                  </FormField>
+                  {errors.anime && <Error>{errors.anime}</Error>}
+
+                  <FormField>
+                    <label htmlFor='artist'>Artista</label>
+                    <input
+                      type='text'
+                      id='artist'
+                      placeholder='Nombre del artista'
+                      name='artist'
+                      value={artist}
+                      onChange={handleChange}
+                    />
+                  </FormField>
+                  {errors.artist && <Error>{errors.artist}</Error>}
+
+                  <FormField>
+                    <label htmlFor='originalName'>Nombre Cancion / Nombre Original</label>
+                    <input
+                      type='text'
+                      id='originalName'
+                      placeholder='Nombre de la canción, o nombre original'
+                      name='originalName'
+                      value={originalName}
+                      onChange={handleChange}
+                    />
+                  </FormField>
+                  {errors.originalName && <Error>{errors.originalName}</Error>}
+                </fieldset>
+
+                <InputSubmit
+                  type='submit'
+                  value='Nueva Canción'
                 />
-              </FormField>
-              {errors.name && <Error>{errors.name}</Error>}
+              </Form>
+            </>
 
-              <FormField>
-                <label htmlFor='url'>Url</label>
-                <input
-                  type='url'
-                  id='url'
-                  placeholder='Enlace de la cancion'
-                  name='url'
-                  value={url}
-                  onChange={handleChange}
-                />
-              </FormField>
-              {errors.url && <Error>{errors.url}</Error>}
-
-              <FormField>
-                <label htmlFor='image'>Imagen</label>
-                <input
-                  type='file'
-                  onChange={(e) => {
-                    const file = e.target.files ? e.target.files[0] : undefined
-                    setSelectedFile(file)
-                  }}
-                  id='image'
-                  placeholder='Imagen'
-                  name='image'
-                  value={image}
-                />
-              </FormField>
-              {imageError && <strong>Error: {imageError.message}</strong>}
-              {uploading && <span>Uploading file...</span>}
-              {selectedFile && <span>Selected file: {selectedFile.name}</span>}
-              {}
-            </fieldset>
-
-            <fieldset>
-              <legend>¿Por que este tema?</legend>
-
-              <FormField>
-                <label htmlFor='description'>Descripción</label>
-                <textarea
-                  id='description'
-                  placeholder='¿Por que te gusta esta canción?, ¿Como te sentis al escucharla?, etc'
-                  name='description'
-                  value={description}
-                  onChange={handleChange}
-                />
-              </FormField>
-              {errors.description && <Error>{errors.description}</Error>}
-            </fieldset>
-
-            <fieldset>
-              <legend>Informacion Extra</legend>
-
-              <FormField>
-                <label htmlFor='anime'>Anime</label>
-                <input
-                  type='text'
-                  id='anime'
-                  placeholder='Nombre del anime donde aparece'
-                  name='anime'
-                  value={anime}
-                  onChange={handleChange}
-                />
-              </FormField>
-              {errors.anime && <Error>{errors.anime}</Error>}
-
-              <FormField>
-                <label htmlFor='artist'>Artista</label>
-                <input
-                  type='text'
-                  id='artist'
-                  placeholder='Nombre del artista'
-                  name='artist'
-                  value={artist}
-                  onChange={handleChange}
-                />
-              </FormField>
-              {errors.artist && <Error>{errors.artist}</Error>}
-
-              <FormField>
-                <label htmlFor='originalName'>Nombre Cancion / Nombre Original</label>
-                <input
-                  type='text'
-                  id='originalName'
-                  placeholder='Nombre de la canción, o nombre original'
-                  name='originalName'
-                  value={originalName}
-                  onChange={handleChange}
-                />
-              </FormField>
-              {errors.originalName && <Error>{errors.originalName}</Error>}
-            </fieldset>
-
-            <InputSubmit
-              type='submit'
-              value='Nueva Canción'
-            />
-          </Form>
-        </>
+            )}
       </Layout>
     </>
   )

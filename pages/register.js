@@ -1,11 +1,12 @@
 import Layout from '@/components/layout/Layout'
 import { Form, FormField, InputSubmit, Error } from '@/components/ui/Form'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Router from 'next/router'
+
+import { FirebaseContext } from '@/firebase'
 
 import useValidation from '@/hooks/useValidation'
 import RegisterValidation from '@/validation/registerValidation'
-import { register } from '@/firebase/firebase'
 
 const INITIAL_STATE = {
   name: '',
@@ -14,6 +15,8 @@ const INITIAL_STATE = {
 }
 
 const Register = () => {
+  const { register } = useContext(FirebaseContext)
+
   const [error, setError] = useState(false)
 
   const { values, errors, handleChange, handleSubmit } = useValidation(INITIAL_STATE, RegisterValidation, Register)
@@ -25,7 +28,6 @@ const Register = () => {
       await register(name, email, password)
       Router.push('/')
     } catch (error) {
-      console.log('Hubo un error al crear el usuario', error)
       if (error.code === 'auth/email-already-in-use') {
         setError('Email ya registrado.')
       } else {

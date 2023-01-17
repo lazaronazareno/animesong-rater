@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth'
-import { getFirestore, collection, addDoc, query, orderBy, getDocs } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, query, orderBy, getDocs, getDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 
 import firebaseConfig from './config'
@@ -44,8 +44,8 @@ export const addNewSong = async (newSong) => {
 }
 
 export const getSongs = async () => {
-  const songsRef = collection(db, 'songs')
-  const q = query(songsRef, orderBy('createdAt', 'desc'))
+  const songsRef = await collection(db, 'songs')
+  const q = await query(songsRef, orderBy('createdAt', 'desc'))
 
   const snapshot = await getDocs(q)
 
@@ -57,4 +57,42 @@ export const getSongs = async () => {
   })
 
   return response
+}
+
+export const getSongById = async (id) => {
+  const songRef = await doc(db, 'songs', id)
+  const q = await getDoc(songRef)
+
+  let response = null
+
+  if (q.exists()) {
+    response = q.data()
+  } else {
+    console.log('id inexistente')
+  }
+
+  return response
+}
+
+export const updateSongVotes = async (id, newVotes, newUserVotes) => {
+  const songRef = await doc(db, 'songs', id)
+  console.log(songRef)
+
+  await updateDoc(songRef, {
+    votes: newVotes,
+    userVotes: newUserVotes
+  })
+}
+
+export const updateSongComments = async (id, newComments) => {
+  const songRef = await doc(db, 'songs', id)
+  console.log(songRef)
+
+  await updateDoc(songRef, {
+    comments: newComments
+  })
+}
+
+export const deleteSong = async (id) => {
+  await deleteDoc(doc(db, 'songs', id))
 }
