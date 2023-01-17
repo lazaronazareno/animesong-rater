@@ -2,7 +2,8 @@ import React from 'react'
 import Head from 'next/head'
 import '@/styles/globals.css'
 
-import firebase, { FirebaseContext } from '../firebase'
+import { FirebaseContext } from '../firebase'
+import { register, login, logout, addNewSong, getSongs, getSongById, updateSongVotes, updateSongComments, deleteSong } from '@/firebase/firebase'
 import useAuth from '@/hooks/useAuth'
 
 export default function App ({ Component, pageProps }) {
@@ -18,8 +19,16 @@ export default function App ({ Component, pageProps }) {
   return (
     <FirebaseContext.Provider
       value={{
-        firebase,
-        user
+        user,
+        register,
+        login,
+        logout,
+        addNewSong,
+        getSongs,
+        getSongById,
+        updateSongVotes,
+        updateSongComments,
+        deleteSong
       }}
     >
       <Head>
