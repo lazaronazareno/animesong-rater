@@ -5,6 +5,7 @@ import styled from '@emotion/styled'
 
 import useSongs from '@/hooks/useSongs'
 import SongDetails from '@/components/layout/SongDetails'
+import { css } from '@emotion/react'
 
 const SongsContainer = styled.div`
   display: flex;
@@ -40,9 +41,13 @@ const Search = () => {
     <>
       <Layout>
         <SongsContainer>
-          {result.map(song => (
-            <SongDetails key={song.id} song={song} />
-          ))}
+          {result.length > 0
+            ? (
+                result.map(song => (
+                  <SongDetails key={song.id} song={song} />
+                ))
+              )
+            : <h3 css={css`color:var(--white);`}>No hay resultados</h3>}
         </SongsContainer>
       </Layout>
     </>

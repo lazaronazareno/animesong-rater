@@ -6,6 +6,7 @@ import styled from '@emotion/styled'
 import { css } from '@emotion/react'
 import Button from '../ui/Button'
 import { FirebaseContext } from '@/firebase'
+import { Router } from 'next/router'
 
 const ContainerHeader = styled.div`
   max-width: 1200px;
@@ -38,6 +39,11 @@ const Logo = styled.p`
 const Header = () => {
   const { user, logout } = useContext(FirebaseContext)
 
+  const handleLogout = () => {
+    logout()
+    Router.push('/')
+  }
+
   return (
     <header
       css={css`
@@ -62,6 +68,7 @@ const Header = () => {
         <div css={css`
           display: flex;
           align-items: center;
+          gap: 1rem;
         `}
         >
           {user
@@ -75,7 +82,7 @@ const Header = () => {
                 </p>
                 <Button
                   bgColor='true'
-                  onClick={() => logout()}
+                  onClick={handleLogout}
                 >Cerrar Sesión
                 </Button>
               </>

@@ -10,6 +10,7 @@ const InputText = styled.input`
   border-radius: 12px;
   padding: 1.5rem;
   min-width: 300px;
+  color: var(--white);
 
   ::placeholder {
     color: var(--white);

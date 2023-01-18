@@ -1,7 +1,8 @@
 import Layout from '@/components/layout/Layout'
-import { Form, FormField, InputSubmit, Error } from '@/components/ui/Form'
+import { AuthForm, FormField, InputSubmit, Error } from '@/components/ui/Form'
 import React, { useContext, useState } from 'react'
 import Router from 'next/router'
+import { css } from '@emotion/react'
 
 import { FirebaseContext } from '@/firebase'
 
@@ -41,8 +42,8 @@ const Login = () => {
     <>
       <Layout>
         <>
-          <h1>Iniciar Sesión</h1>
-          <Form
+          <h1 css={css`color:var(--white);`}>Iniciar Sesión</h1>
+          <AuthForm
             onSubmit={handleSubmit}
             noValidate={email}
           >
@@ -77,7 +78,7 @@ const Login = () => {
               value='Iniciar Sesión'
             />
             {error && <Error>{error}</Error>}
-          </Form>
+          </AuthForm>
         </>
       </Layout>
     </>

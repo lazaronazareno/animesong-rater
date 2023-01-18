@@ -7,7 +7,6 @@ import styled from '@emotion/styled'
 import { css } from '@emotion/react'
 import { FormField, InputSubmit } from '@/components/ui/Form'
 import Button from '@/components/ui/Button'
-import useBackgroundByImage from '@/hooks/useBackgroundByImage'
 
 const Container = styled.div`
   width: 65%;
@@ -80,9 +79,6 @@ const Song = () => {
   }
 
   const { name, url, description, anime, artist, originalName, image, comments, votes, createdAt, userVotes, author } = song
-
-  const { color } = useBackgroundByImage(image)
-  console.log(color)
 
   useEffect(() => {
     if (id && loadDB) {

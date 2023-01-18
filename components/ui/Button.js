@@ -10,6 +10,7 @@ const Button = styled.a`
   text-align: center;
   background-color: ${props => (props.bgColor ? '#F7B801' : '#fefae0')};
   color: ${props => (props.bgColor ? '#233d4d' : '#3D348B')};
+  border-radius: 8px;
 
   &::last-of-type {
     margin-right: 0;
@@ -17,6 +18,7 @@ const Button = styled.a`
 
   &:hover {
     cursor: pointer;
+    opacity: 0.9;
   }
 `
 
