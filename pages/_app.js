@@ -33,6 +33,11 @@ export default function App ({ Component, pageProps }) {
     >
       <Head>
         <title>AniSongs Rater</title>
+        <meta
+          name='description'
+          content='Anime Rating Page - Social Media - Rating - Anime Openings - Anime Endings - Anisongs'
+        />
+        <meta name='author' content='github/lazaronazareno' />
       </Head>
       <Component {...pageProps} />
     </FirebaseContext.Provider>

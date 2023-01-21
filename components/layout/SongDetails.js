@@ -21,7 +21,7 @@ const SongContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
 
-  div:first-child {
+  div:first-of-type {
     flex-wrap: wrap;
     display:flex;
     gap: 2rem;

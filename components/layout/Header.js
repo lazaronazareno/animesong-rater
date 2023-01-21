@@ -19,15 +19,20 @@ const ContainerHeader = styled.div`
     justify-content: space-between;
   }
 
+  
+`
+
+const Container = styled.div`
+    display: flex;
+    align-items: center;
+
   @media (max-width : 768px) {
-    div:first-child {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
     }
-  }
 `
 
 const Logo = styled.p`
@@ -64,7 +69,6 @@ const AuthContainer = styled.div`
 
 const Header = () => {
   const [show, setShow] = useState(false)
-  console.log(show)
   const { user, logout } = useContext(FirebaseContext)
   const router = useRouter()
 
@@ -81,11 +85,7 @@ const Header = () => {
       `}
     >
       <ContainerHeader>
-        <div css={css`
-          display: flex;
-          align-items: center;
-        `}
-        >
+        <Container>
           <Link href='/'>
             <Logo>ASR</Logo>
           </Link>
@@ -97,7 +97,7 @@ const Header = () => {
             <Navigation />
 
           </NavContainer>
-        </div>
+        </Container>
         <AuthContainer css={css`display: ${show ? 'flex!important' : ''};`}>
           {user
             ? (
@@ -111,16 +111,17 @@ const Header = () => {
                 <Button
                   bgColor='true'
                   onClick={handleLogout}
+                  title='Logout'
                 >Cerrar Sesión
                 </Button>
               </>
               )
             : (
               <>
-                <Button href='/login' bgColor='true'>
+                <Button href='/login' bgColor='true' title='login'>
                   Login
                 </Button>
-                <Button href='/register'>
+                <Button href='/register' title='register'>
                   Crear Cuenta
                 </Button>
               </>

@@ -50,12 +50,12 @@ const MenuButton = ({ show, setShow }) => {
     <>
       {!show
         ? (
-          <OpenButton onClick={() => setShow(!show)}>
+          <OpenButton title='Menu Open' onClick={() => setShow(!show)}>
             <AiOutlineMenu size={24} />
           </OpenButton>
           )
         : (
-          <CloseButton onClick={() => setShow(!show)}>
+          <CloseButton title='Menu Close' onClick={() => setShow(!show)}>
             <AiOutlineClose size={24} />
           </CloseButton>
           )}

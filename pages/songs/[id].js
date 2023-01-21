@@ -287,6 +287,7 @@ const Song = () => {
                       target='_blank'
                       bgColor='true'
                       href={url}
+                      title='url link'
                     >
                       Escuchar
                     </Button>
@@ -294,6 +295,7 @@ const Song = () => {
                     {user && (
                       <Button
                         onClick={handleVote}
+                        title='vote'
                       >Votar
                       </Button>
                     )}
@@ -313,7 +315,7 @@ const Song = () => {
 
                     <h3 css={css`text-align: center;`}>{votes} Votos</h3>
 
-                    {canDelete && <Button css={css`background-color:var(--red); color:var(--white);`} onClick={handleDelete}>Borrar Cancion</Button>}
+                    {canDelete && <Button title='delete' css={css`background-color:var(--red); color:var(--white);`} onClick={handleDelete}>Borrar Cancion</Button>}
                   </aside>
                 </SongContainer>
               </Container>

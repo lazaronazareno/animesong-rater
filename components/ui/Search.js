@@ -68,7 +68,7 @@ const Search = () => {
         onChange={e => setSearch(e.target.value)}
       />
 
-      <InputSubmit type='submit'><VscSearch color='white' size={28} /></InputSubmit>
+      <InputSubmit title='submit search' type='submit'><VscSearch color='white' size={28} /></InputSubmit>
     </Form>
   )
 }
