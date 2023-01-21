@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Form, FormField, InputSubmit, Error } from '@/components/ui/Form'
 import React, { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
+import { css } from '@emotion/react'
 
 import { FirebaseContext } from '@/firebase'
 
@@ -85,7 +86,7 @@ const NewSong = () => {
           ? <Error404 msg='No se puede mostrar el contenido. Logueate!' />
           : (
             <>
-              <h1>Nueva Canción</h1>
+              <h1 css={css`color:var(--white);`}>Nueva Canción</h1>
               <Form
                 onSubmit={handleSubmit}
               >

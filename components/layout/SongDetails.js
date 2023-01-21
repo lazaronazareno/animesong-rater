@@ -1,11 +1,13 @@
 import styled from '@emotion/styled'
 import { css } from '@emotion/react'
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import { useRouter } from 'next/router'
 import { FaComments } from 'react-icons/fa'
 import { BiUpArrow } from 'react-icons/bi'
 import Link from 'next/link'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { es } from 'date-fns/locale'
+import { FirebaseContext } from '@/firebase'
 
 const SongContainer = styled.div`
   display: flex;
@@ -66,12 +68,44 @@ const Votes = styled.div`
     background-color: var(--yellow);
     border-radius: 8px;
     padding: 7.5rem 1rem;
+
+    &:hover {
+      cursor: pointer;
+    }
 `
 
 const SongDetails = ({ song }) => {
-  const { id, name, /* url, */ anime, artist, description, originalName, image, comments, votes, createdAt } = song
-  const date = new Date(createdAt)
-  const realDate = date.toLocaleString()
+  const { id, name, description, image, comments, votes, createdAt, userVotes } = song
+
+  const [voteError, setVoteError] = useState(false)
+
+  const router = useRouter()
+
+  const { user, updateSongVotes } = useContext(FirebaseContext)
+
+  const handleVote = async () => {
+    if (!user) {
+      return router.push('/login')
+    }
+
+    const newVotes = votes + 1
+
+    if (userVotes.includes(user.uid)) {
+      setVoteError('Ya has votado por esta canción!')
+      return
+    }
+
+    setVoteError(false)
+    const newUserVotes = [...userVotes, user.uid]
+    try {
+      await updateSongVotes(id, newVotes, newUserVotes)
+
+      router.push('/')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <SongContainer>
       <div css={css`display:flex; gap: 2rem;`}>
@@ -94,11 +128,12 @@ const SongDetails = ({ song }) => {
                 <h3>{comments.length}</h3>
                 <FaComments size={25} />
               </Link>
+              {voteError && <span>{voteError}</span>}
             </Comments>
           </div>
         </SongInfo>
       </div>
-      <Votes>
+      <Votes onClick={handleVote}>
         <BiUpArrow />
         <h3>{votes}</h3>
       </Votes>

@@ -4,6 +4,7 @@ import SongDetails from '@/components/layout/SongDetails'
 import styled from '@emotion/styled'
 
 import useSongs from '@/hooks/useSongs'
+import Loading from '@/components/layout/Loading'
 
 const SongsContainer = styled.div`
   display: flex;
@@ -16,6 +17,8 @@ const SongsContainer = styled.div`
 
 const Home = () => {
   const { songs } = useSongs('createdAt')
+
+  if (Object.keys(songs).length === 0) return <Loading />
 
   return (
     <>

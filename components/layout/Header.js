@@ -6,7 +6,7 @@ import styled from '@emotion/styled'
 import { css } from '@emotion/react'
 import Button from '../ui/Button'
 import { FirebaseContext } from '@/firebase'
-import { Router } from 'next/router'
+import { useRouter } from 'next/router'
 
 const ContainerHeader = styled.div`
   max-width: 1200px;
@@ -38,10 +38,11 @@ const Logo = styled.p`
 
 const Header = () => {
   const { user, logout } = useContext(FirebaseContext)
+  const router = useRouter()
 
   const handleLogout = () => {
     logout()
-    Router.push('/')
+    router.push('/')
   }
 
   return (

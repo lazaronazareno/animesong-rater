@@ -41,11 +41,11 @@ const Register = () => {
     <>
       <Layout>
         <>
-          <h1 css={css`color:var(--white);`}>Crear Cuenta</h1>
           <AuthForm
             onSubmit={handleSubmit}
             noValidate={email}
           >
+            <h1 css={css`text-align:center;`}>Crear Cuenta</h1>
             <FormField>
               <label htmlFor='name'>Nombre</label>
               <input

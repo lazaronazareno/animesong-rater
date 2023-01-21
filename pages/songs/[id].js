@@ -7,10 +7,22 @@ import styled from '@emotion/styled'
 import { css } from '@emotion/react'
 import { FormField, InputSubmit } from '@/components/ui/Form'
 import Button from '@/components/ui/Button'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import { es } from 'date-fns/locale'
+import Loading from '@/components/layout/Loading'
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 12px;
+  margin: 4rem;
+  padding: 2rem;  
+`
 
 const Container = styled.div`
-  width: 65%;
-  padding: 3rem 0;
+  padding: 3rem;
   align-items: center;
 
   @media (max-width : 768px) {
@@ -33,6 +45,7 @@ const SongContainer = styled.div`
       justify-content: space-between;
       align-items: center;
       width: 100%;
+      flex-wrap: wrap;
     }
 
     aside a {
@@ -44,6 +57,13 @@ const SongContainer = styled.div`
       margin: 0;
     }
   }
+`
+
+const ImageContainer = styled.div`
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
 `
 
 const AuthorComment = styled.p`
@@ -87,10 +107,7 @@ const Song = () => {
     }
   }, [id])
 
-  if (Object.keys(song).length === 0 && !error) return 'Cargando...'
-
-  const date = new Date(createdAt)
-  const realDate = date.toLocaleString()
+  if (Object.keys(song).length === 0 && !error) return <Loading />
 
   const handleVote = async () => {
     if (!user) {
@@ -187,7 +204,7 @@ const Song = () => {
         {error
           ? <Error404 msg='Id inexistente' />
           : (
-            <>
+            <MainContainer>
               <h1>{name}</h1>
               <Container>
 
@@ -202,10 +219,10 @@ const Song = () => {
                     justify-content: space-between;
                   `}
                     >
-                      <h3>{realDate}</h3>
+                      <h3>Publicado hace {formatDistanceToNow(new Date(createdAt), { locale: es })}</h3>
                       <h3>Por : {author.name}</h3>
                     </div>
-                    <div css={css`display:flex; gap:2rem;`}>
+                    <ImageContainer>
                       <img
                         css={css`
                       width: 50%;
@@ -220,7 +237,7 @@ const Song = () => {
                         <h3>{artist}</h3>
                         <h3>"{description}"</h3>
                       </div>
-                    </div>
+                    </ImageContainer>
 
                     {user && (
                       <>
@@ -231,6 +248,7 @@ const Song = () => {
                               type='text'
                               name='text'
                               onChange={handleComment}
+                              placeholder='Escribe un comentario'
                             />
                           </FormField>
                           <InputSubmit
@@ -299,7 +317,7 @@ const Song = () => {
                   </aside>
                 </SongContainer>
               </Container>
-            </>
+            </MainContainer>
             )}
       </>
     </Layout>

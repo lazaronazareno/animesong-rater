@@ -39,6 +39,7 @@ export const Form = styled.form`
 
 export const AuthForm = styled.form`
   background-color: white;
+  display: flex;
   flex-direction: column;
   padding: 10rem;
   gap: 2rem;

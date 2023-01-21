@@ -42,11 +42,11 @@ const Login = () => {
     <>
       <Layout>
         <>
-          <h1 css={css`color:var(--white);`}>Iniciar Sesión</h1>
           <AuthForm
             onSubmit={handleSubmit}
             noValidate={email}
           >
+            <h1 css={css`text-align:center;`}>Iniciar Sesión</h1>
             <FormField>
               <label htmlFor='email'>Email</label>
               <input
