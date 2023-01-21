@@ -4,11 +4,11 @@ import styled from '@emotion/styled'
 import FirebaseContext from '../../firebase/context.js'
 
 const Nav = styled.nav`
-  padding-left: 2rem;
+  padding: 1rem;
 
   a {
     font-size: 1.8rem;
-    margin-left: 2rem;
+    margin-left: 1rem;
     color: var(--light-violet);
     font-family: 'Sofia Sans Condensed', sans-serif;
 
@@ -22,11 +22,13 @@ const Nav = styled.nav`
   }
 
   @media (max-width : 768px) {
-    display: flex;
-    justify-content: space-between;
     width: 100%;
     padding: 0;
     flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    display: flex;
+    gap: 1rem;
 
     a {
       font-size: 2rem;

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Search from '../ui/Search'
 import Navigation from './Navigation'
 import styled from '@emotion/styled'
@@ -7,6 +7,7 @@ import { css } from '@emotion/react'
 import Button from '../ui/Button'
 import FirebaseContext from '../../firebase/context.js'
 import { useRouter } from 'next/router'
+import MenuButton from '../ui/MenuButton'
 
 const ContainerHeader = styled.div`
   max-width: 1200px;
@@ -19,10 +20,12 @@ const ContainerHeader = styled.div`
   }
 
   @media (max-width : 768px) {
-    div:first-of-type {
+    div:first-child {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: flex-start;
       flex-wrap: wrap;
+      gap: 1rem;
     }
   }
 `
@@ -36,7 +39,32 @@ const Logo = styled.p`
   margin-right: 2rem;
 `
 
+const NavContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  @media (max-width : 768px) {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+  }
+`
+
+const AuthContainer = styled.div`
+    display: flex;
+    gap: 1rem;  
+
+    @media (max-width : 768px) {
+      display: none;
+      flex-direction: column;
+      margin: 1rem 0;
+  }
+`
+
 const Header = () => {
+  const [show, setShow] = useState(false)
+  console.log(show)
   const { user, logout } = useContext(FirebaseContext)
   const router = useRouter()
 
@@ -61,17 +89,16 @@ const Header = () => {
           <Link href='/'>
             <Logo>ASR</Logo>
           </Link>
-          <Search />
 
-          <Navigation />
+          <MenuButton show={show} setShow={setShow} />
+          <NavContainer css={css`display: ${show ? 'flex!important' : ''};`}>
+            <Search />
 
+            <Navigation />
+
+          </NavContainer>
         </div>
-        <div css={css`
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        `}
-        >
+        <AuthContainer css={css`display: ${show ? 'flex!important' : ''};`}>
           {user
             ? (
               <>
@@ -98,7 +125,7 @@ const Header = () => {
                 </Button>
               </>
               )}
-        </div>
+        </AuthContainer>
       </ContainerHeader>
     </header>
   )

@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { css } from '@emotion/react'
 import Router from 'next/router'
 import { VscSearch } from 'react-icons/vsc'
+
+const Form = styled.form`
+  position: relative;
+  width: 100%;
+`
 
 const InputText = styled.input`
   background-color: var(--light-violet);
@@ -14,6 +18,10 @@ const InputText = styled.input`
 
   ::placeholder {
     color: var(--white);
+  }
+
+  @media (max-width : 768px) {
+    width: 100%;
   }
 `
 
@@ -53,12 +61,7 @@ const Search = () => {
   }
 
   return (
-    <form
-      css={css`
-        position: relative;
-      `}
-      onSubmit={handleSubmit}
-    >
+    <Form onSubmit={handleSubmit}>
       <InputText
         type='text'
         placeholder='Introduce 3 o más caracterés'
@@ -66,7 +69,7 @@ const Search = () => {
       />
 
       <InputSubmit type='submit'><VscSearch color='white' size={28} /></InputSubmit>
-    </form>
+    </Form>
   )
 }
 

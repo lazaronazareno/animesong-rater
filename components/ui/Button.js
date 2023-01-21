@@ -20,6 +20,10 @@ const Button = styled.a`
     cursor: pointer;
     opacity: 0.9;
   }
+
+  @media (max-width : 768px) {
+    margin: 0;
+  }
 `
 
 export default Button
