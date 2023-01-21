@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useRouter } from 'next/router'
-import FirebaseContext from '../firebase/context.js'
+import FirebaseContext from '../../firebase/context.js'
 import Error404 from '@/components/layout/404'
 import Layout from '@/components/layout/Layout'
 import styled from '@emotion/styled'
