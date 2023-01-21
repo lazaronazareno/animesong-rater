@@ -58,7 +58,8 @@ const NavContainer = styled.div`
 
 const AuthContainer = styled.div`
     display: flex;
-    gap: 1rem;  
+    gap: 1rem;
+    align-items: center;
 
     @media (max-width : 768px) {
       display: none;
