@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react'
 import Router from 'next/router'
 import { css } from '@emotion/react'
 
-import { FirebaseContext } from '@/firebase'
+import FirebaseContext from '../firebase/context.js'
 
 import useValidation from '@/hooks/useValidation'
 import LoginValidation from '@/validation/loginValidation'

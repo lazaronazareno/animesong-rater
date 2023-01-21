@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React, { useContext } from 'react'
 import styled from '@emotion/styled'
-import { FirebaseContext } from '@/firebase'
+import FirebaseContext from '../../firebase/context.js'
 
 const Nav = styled.nav`
   padding-left: 2rem;
@@ -26,6 +26,7 @@ const Nav = styled.nav`
     justify-content: space-between;
     width: 100%;
     padding: 0;
+    flex-wrap: wrap;
 
     a {
       font-size: 2rem;

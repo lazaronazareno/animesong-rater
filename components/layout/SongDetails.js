@@ -7,7 +7,7 @@ import { BiUpArrow } from 'react-icons/bi'
 import Link from 'next/link'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { es } from 'date-fns/locale'
-import { FirebaseContext } from '@/firebase'
+import FirebaseContext from '../../firebase/context.js'
 
 const SongContainer = styled.div`
   display: flex;
@@ -19,6 +19,13 @@ const SongContainer = styled.div`
   background-color: var(--white);
   border-radius: 12px;
   align-items: center;
+  flex-wrap: wrap;
+
+  div:first-child {
+    flex-wrap: wrap;
+    display:flex;
+    gap: 2rem;
+  }
 
   h1 {
     margin-bottom: 1rem;
@@ -42,6 +49,13 @@ const SongInfo = styled.div`
 
   h3 {
     margin-bottom: auto;
+  }
+
+  @media (max-width: 768px) {
+    width: auto;
+      div:first-of-type {
+      flex-direction: column;
+    }
   }
 `
 
@@ -71,6 +85,14 @@ const Votes = styled.div`
 
     &:hover {
       cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: row;
+      width: 100%;
+      padding: 0;
+      margin: 1rem 0;
+      justify-content: center;
     }
 `
 
@@ -108,7 +130,7 @@ const SongDetails = ({ song }) => {
 
   return (
     <SongContainer>
-      <div css={css`display:flex; gap: 2rem;`}>
+      <div>
         <SongImage alt={name} src={image} />
         <SongInfo css={css`width: 40rem;`}>
           <Link

@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import '@/styles/globals.css'
 
-import { FirebaseContext } from '../firebase'
+import FirebaseContext from '../firebase/context.js'
 import { register, login, logout, addNewSong, getSongs, getSongById, updateSongVotes, updateSongComments, deleteSong } from '@/firebase/firebase'
 import useAuth from '@/hooks/useAuth'
 

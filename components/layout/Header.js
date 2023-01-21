@@ -5,7 +5,7 @@ import Navigation from './Navigation'
 import styled from '@emotion/styled'
 import { css } from '@emotion/react'
 import Button from '../ui/Button'
-import { FirebaseContext } from '@/firebase'
+import FirebaseContext from '../../firebase/context.js'
 import { useRouter } from 'next/router'
 
 const ContainerHeader = styled.div`

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 
-import { FirebaseContext } from '@/firebase'
+import FirebaseContext from '../firebase/context.js'
 
 const useSongs = (order) => {
   const { getSongs } = useContext(FirebaseContext)
